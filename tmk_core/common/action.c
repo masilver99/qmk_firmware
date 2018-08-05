@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "action_util.h"
 #include "action.h"
 #include "wait.h"
+#include <hd44780.h>
 
 #ifdef DEBUG_ACTION
 #include "debug.h"
@@ -197,6 +198,15 @@ void process_action(keyrecord_t *record, action_t action)
 #ifndef NO_ACTION_TAPPING
     uint8_t tap_count = record->tap.count;
 #endif
+
+        lcd_goto(0x40);
+        char s[6];
+        //utoa(action.key.code, s, 10);
+        //char *hello_world = (char*)malloc(6 * sizeof(char));
+        sprintf(s, "%d", action.key.code);
+        lcd_puts(s); 
+
+    
 
     if (event.pressed) {
         // clear the potential weak mods left by previously pressed keys

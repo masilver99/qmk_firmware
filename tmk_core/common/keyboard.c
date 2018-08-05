@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "eeconfig.h"
 #include "backlight.h"
 #include "action_layer.h"
+#include <hd44780.h>
 #ifdef BOOTMAGIC_ENABLE
 #   include "bootmagic.h"
 #else

@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "debug.h"
 #include "util.h"
 #include "ibm_terminal.h"
+#include <hd44780.h>
 
 #define KC_MCOPY LCTL(KC_C)        // Copy
 #define KC_MPSTE LCTL(KC_V)        // Copy
@@ -75,3 +76,4 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 const uint16_t PROGMEM fn_actions[] = {
       ACTION_MODS_KEY(MOD_RCTL, KC_C)
 };
+
