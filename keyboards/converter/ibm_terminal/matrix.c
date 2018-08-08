@@ -59,9 +59,9 @@ void matrix_init_user(void) {
 void matrix_init(void)
 {
     debug_enable = true;
-    //debug_matrix = true;
-    //debug_keyboard = true;
-    //debug_mouse = false;
+    debug_matrix = true;
+    debug_keyboard = true;
+    debug_mouse = false;
 
     ps2_host_init();
 

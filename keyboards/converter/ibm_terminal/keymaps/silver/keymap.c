@@ -23,10 +23,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "util.h"
 #include "ibm_terminal.h"
 #include <hd44780.h>
+#include "timer.h"
 
 #define KC_MCOPY LCTL(KC_C)        // Copy
 #define KC_MPSTE LCTL(KC_V)        // Copy
 #define KC_MCUT  LCTL(KC_X)        // Copy
+
+uint32_t last_timer = 0;
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    // Display key click count
+    if (event.pressed) {
+        lcd_goto(0x40);
+        sprintf(lcd2, "%16d", (int)++click_count);
+        lcd_puts(lcd2); 
+        save_click_count();  //May want to call this elsewhere too, like on a timer.
+    }
+    return true;
+}
+
+void save_click_count()
+{
+    uint32_t cur_timer = timer_read32();
+    if (cur_time - last_time > 3600000) //if unsaved for an hour
+    {
+        //save new time here
+        last_time = cur_time;
+    }
+}
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // Layer 0
@@ -76,4 +100,3 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 const uint16_t PROGMEM fn_actions[] = {
       ACTION_MODS_KEY(MOD_RCTL, KC_C)
 };
-

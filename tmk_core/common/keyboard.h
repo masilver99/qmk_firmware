@@ -50,6 +50,9 @@ static inline bool IS_NOEVENT(keyevent_t event) { return event.time == 0 || (eve
 static inline bool IS_PRESSED(keyevent_t event) { return (!IS_NOEVENT(event) && event.pressed); }
 static inline bool IS_RELEASED(keyevent_t event) { return (!IS_NOEVENT(event) && !event.pressed); }
 
+extern uint32_t click_count;
+extern char lcd2[17];
+
 /* Tick event */
 #define TICK                    (keyevent_t){           \
     .key = (keypos_t){ .row = 255, .col = 255 },           \

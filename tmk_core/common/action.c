@@ -199,16 +199,8 @@ void process_action(keyrecord_t *record, action_t action)
     uint8_t tap_count = record->tap.count;
 #endif
 
-        lcd_goto(0x40);
-        char s[6];
-        //utoa(action.key.code, s, 10);
-        //char *hello_world = (char*)malloc(6 * sizeof(char));
-        sprintf(s, "%d", action.key.code);
-        lcd_puts(s); 
-
-    
-
     if (event.pressed) {
+
         // clear the potential weak mods left by previously pressed keys
         clear_weak_mods();
     }

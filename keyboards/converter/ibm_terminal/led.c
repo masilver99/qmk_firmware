@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <hd44780.h>
 
 
+
 void led_set(uint8_t usb_led)
 {
     uint8_t ps2_led = 0;
@@ -29,17 +30,19 @@ void led_set(uint8_t usb_led)
     if (usb_led &  (1<<USB_LED_NUM_LOCK))
     {
         ps2_led |= (1<<PS2_LED_NUM_LOCK);
-        lcd_goto(0x08);
-        lcd_puts(" NUMLOCK");
-    }  else {
+            lcd_goto(0x08);
+            lcd_puts(" NUMLOCK");
+    }  
+    else {
         lcd_goto(0x08);
         lcd_puts(" num off");
+
     }
     if (usb_led &  (1<<USB_LED_CAPS_LOCK))
     {
         ps2_led |= (1<<PS2_LED_CAPS_LOCK);
-        lcd_goto(0x0);
-        lcd_puts("CAPSLOCK");
+            lcd_goto(0x0);
+            lcd_puts("CAPSLOCK");
 
     } else {
         lcd_goto(0x0);
