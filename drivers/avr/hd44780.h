@@ -53,6 +53,7 @@ uint8_t lcd_getc(void);
 void lcd_putc(char c);
 void lcd_puts(const char *s);
 void lcd_puts_P(const char *progmem_s);
+void lcd_print(int pos, const char *s);
 #if (LCD_DISPLAYS>1)
 void lcd_use_display(int ADisplay);
 #endif

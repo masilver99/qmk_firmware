@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "eeconfig.h"
 #include "backlight.h"
 #include "action_layer.h"
+#include "string.h"
 #ifdef BOOTMAGIC_ENABLE
 #   include "bootmagic.h"
 #else
@@ -72,9 +73,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef HD44780_ENABLE
 #   include "hd44780.h"
 #endif
-
-uint32_t click_count = 0;
-char lcd2[17];
 
 #ifdef MATRIX_HAS_GHOST
 extern const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS];
@@ -153,8 +151,6 @@ bool is_keyboard_master(void) {
  * FIXME: needs doc
  */
 void keyboard_init(void) {
-    click_count = 0;
-    memset(lcd2,0,sizeof(lcd2));
     timer_init();
 // To use PORTF disable JTAG with writing JTD bit twice within four cycles.
 #if  (defined(__AVR_AT90USB1286__) || defined(__AVR_AT90USB1287__) || defined(__AVR_ATmega32U4__))

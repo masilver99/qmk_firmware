@@ -55,8 +55,6 @@
 #include <util/atomic.h>
 #include "outputselect.h"
 
-#include "hd44780.h"
-
 #ifdef NKRO_ENABLE
   #include "keycode_config.h"
 
@@ -1058,10 +1056,7 @@ int main(void)
     virtser_init();
 #endif
 
-    print("Keyboard start.\n");
-    lcd_init();
-    lcd_clrscr();
-    lcd_puts("Keyboard start.");
+
     while (1) {
         #if !defined(NO_USB_STARTUP_CHECK)
         while (USB_DeviceState == DEVICE_STATE_Suspended) {

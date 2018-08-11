@@ -160,6 +160,9 @@ uint8_t matrix_scan(void)
             }
             break;
     }
+
+    //Call the routine for the keyboard layout overrides
+    matrix_scan_user();
     return 1;
 }
 

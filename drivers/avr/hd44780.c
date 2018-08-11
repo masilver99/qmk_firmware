@@ -541,6 +541,17 @@ void lcd_puts(const char *s)
       lcd_putc(c);
   }
 
+/*************************************************************************
+Display string at specific position on LCD
+Input:    character position to place string (zero based)
+          string to be displayed
+Returns:  none
+*************************************************************************/
+void lcd_print(int pos, const char *s) 
+  {
+    lcd_goto(pos * 4);  //The 4 may vary from LCD to LCD. 4 is for a standard 16x2 HD44780  
+    lcd_puts(s);
+  }
 
 /*************************************************************************
 Display string from flash
