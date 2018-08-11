@@ -37,13 +37,17 @@ const uint32_t START_CLICK_COUNT = 13900;
 uint32_t click_count;
 char lcd2[17];
 
+void display_key_count(void) {
+    lcd_goto(0x40);
+    sprintf(lcd2, "%16d", (int)click_count);
+    lcd_puts(lcd2); 
+}
 // Called with every keystroke
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // Display key click count
     if (record->event.pressed) {
-        lcd_goto(0x40);
-        sprintf(lcd2, "%16d", (int)++click_count);
-        lcd_puts(lcd2); 
+        click_count++;
+        display_key_count();
     }
     return true;
 }
@@ -61,14 +65,14 @@ void matrix_init_user(void) {
     lcd_print(16, "Keyboard is up!");
 }
 
-void save_click_count(void)
+void save_click_count(bool ignore_time)
 {
     // If no more key clicks, don't bother saving
     if (last_click_count != click_count) {
 
         // if already saved in the last time period, don't bother saving
         uint32_t cur_time = timer_read32();
-        if (cur_time - last_save_time > 3600000) { //if unsaved for an hour (3600000) ->3 min (180000)
+        if (cur_time - last_save_time > 3600000 || ignore_time) { //if unsaved for an hour (3600000) ->3 min (180000)
             //update will only write if the value differs in the eeprom
             eeprom_update_dword(EECONFIG_CLICK_COUNT, click_count);
             lcd_print(16, "Saved");
@@ -81,7 +85,19 @@ void save_click_count(void)
 //Called at a rate about 10 per sec
 //Be very careful about adding long running routines here
 void matrix_scan_user(void){
-    save_click_count();
+    save_click_count(false);
+}
+
+void suspend_power_down_user(void)
+{
+    save_click_count(true);
+    lcd_print(16, "--> Suspended <-");
+}
+
+void suspend_wakeup_init_user(void)
+{
+    display_key_count();
+    lcd_print(16, "Resumed");
 }
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
