@@ -1,7 +1,12 @@
-# Quantum Mechanical Keyboard Firmware
+# For of the Quantum Mechanical Keyboard Firmware
 
 NOTE:  This is a fork of the qmk repo.  The purpose of the fork is to add some custom converters as well as explore adding a 16x2 LCD screen.  Since my C skills are relatively weak, forking was the best option.
 
+I added, rudimentarily, code to count keystrokes, store and load the count from the EEPROM as well as display the num lock, caps lock and click count on a small 16x LCD on a 122-key IBM terminal keyboard.
+
+C isn't my forte, so all constructive criticism is welcome.
+
+Qmk's original readme:
 This is a keyboard firmware based on the [tmk\_keyboard firmware](http://github.com/tmk/tmk_keyboard) with some useful features for Atmel AVR and ARM controllers, and more specifically, the [OLKB product line](https://olkb.com), the [ErgoDox EZ](http://www.ergodox-ez.com) keyboard, and the [Clueboard product line](http://clueboard.co/).
 
 ## Documentation
