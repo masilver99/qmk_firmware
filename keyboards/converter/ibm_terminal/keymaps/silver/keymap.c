@@ -37,9 +37,13 @@ const uint32_t START_CLICK_COUNT = 13900;
 uint32_t click_count;
 char lcd2[17];
 
+typedef struct {
+    uint32_t start_time;
+} cps;
+
 void display_key_count(void) {
     lcd_goto(0x40);
-    sprintf(lcd2, "%16d", (int)click_count);
+    sprintf(lcd2, "%16lu", (long)click_count);
     lcd_puts(lcd2); 
 }
 // Called with every keystroke
