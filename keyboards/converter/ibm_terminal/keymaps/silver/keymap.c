@@ -35,26 +35,91 @@ uint32_t last_save_time = 0;
 uint32_t last_click_count;
 const uint32_t START_CLICK_COUNT = 13900;
 uint32_t click_count;
-char lcd2[17];
+char lcd_cc[17];
+//char lcd_cps[7];
 
+uint32_t current_time;
+//uint8_t cps_total_clicks;
+//uint16_t cps;
+//uint16_t max_cps;
+//uint32_t cps_total_time;
+
+/*  Need to implement
 typedef struct {
     uint32_t start_time;
-} cps;
+    uint8_t click_count;
+} cps_struct;
+
+cps_struct timeframe[3] = {{0, 0},{0,0},{0,0}};
+
+uint8_t current_frame = 0;
+uint8_t last_frame = 2;
+*/
 
 void display_key_count(void) {
     lcd_goto(0x40);
-    sprintf(lcd2, "%16lu", (long)click_count);
-    lcd_puts(lcd2); 
+    sprintf(lcd_cc, "%16lu", (long)click_count);
+    lcd_puts(lcd_cc);
 }
+
+/*  Need to finish the cps code at some point
+void calc_cps(void) {
+    
+    current_time = timer_read32();
+    //Get current tf
+    //Perform housekeeping on timeframes i.e. is it new, is it expired, etc
+
+    //no frames yet, so start the frames
+    if (timeframe[current_frame].start_time == 0)
+        timeframe[current_frame].start_time = current_time;
+
+    if (current_time - timeframe[current_frame].start_time > 3000) {
+        //frame has expired, move on to the next one.
+        current_frame++;
+        if (current_frame > 2){
+           current_frame = 0;
+        }
+        last_frame++;
+        if (last_frame > 2) {
+            last_frame = 0;
+        }
+        timeframe[current_frame].start_time = current_time;
+        timeframe[current_frame].click_count = 0;
+    }
+    
+    timeframe[current_frame].click_count++;    
+
+    cps_total_clicks = timeframe[current_frame].click_count + timeframe[last_frame].click_count;
+    cps_total_time = (current_time - timeframe[last_frame].start_time);
+    cps = round((double)cps_total_clicks / ((double)cps_total_time / 16.0));
+
+    if (cps > max_cps){
+        max_cps = cps;
+    }
+
+    //sprintf(lcd_cps, "%-6lu", cps_total_time); 
+    sprintf(lcd_cps, "%lu/%lu  ", cps, max_cps); 
+    lcd_print(16, lcd_cps);
+
+
+
+
+    //calc cps based total clicks / current time / starttime of last and 
+    //round and display on screen
+    
+}
+*/
 // Called with every keystroke
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // Display key click count
     if (record->event.pressed) {
         click_count++;
         display_key_count();
+        //calc_cps();  //need to finish
     }
     return true;
 }
+
 
 // Called when keyboard is initialized
 void matrix_init_user(void) {
@@ -63,7 +128,8 @@ void matrix_init_user(void) {
 
     last_click_count = click_count;
     last_save_time = timer_read32();
-    memset(lcd2,0,sizeof(lcd2));
+    memset(lcd_cc,0,sizeof(lcd_cc));
+    //memset(lcd_cps,0,sizeof(lcd_cps)); //Need to finish
     lcd_init();
     lcd_clrscr();
     lcd_print(16, "Keyboard is up!");
@@ -73,6 +139,8 @@ void save_click_count(bool ignore_time)
 {
     // If no more key clicks, don't bother saving
     if (last_click_count != click_count) {
+        //Note: The ATMEGA32u4 has a limited number of writes before the memory becomes
+        //unstable.  This routine attempts to limit the number of saves for that reason
 
         // if already saved in the last time period, don't bother saving
         uint32_t cur_time = timer_read32();
