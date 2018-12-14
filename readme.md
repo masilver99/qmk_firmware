@@ -1,4 +1,4 @@
-# For of the Quantum Mechanical Keyboard Firmware
+# Fork of the Quantum Mechanical Keyboard Firmware
 
 NOTE:  This is a fork of the qmk repo.  The purpose of the fork is to add some custom converters as well as explore adding a 16x2 LCD screen.  Since my C skills are relatively weak, forking was the best option.
 
